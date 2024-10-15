@@ -14,14 +14,15 @@ A la carpeta *files* teniu la presentació en format PDF, un full de consulta r�
 
 ### Instal·lació
 
--[https://git-scm.com/download](https://git-scm.com/download)
+->[https://git-scm.com/download](https://git-scm.com/download)
 
 ### Configuració
 
   ```bash
    # Opcions obligatòries (nom i correu)
-   git config --global user.name "Nom i cognom"
-   git config --global user.email correu@electronic
+   # Ho podem definir a nivell de repositori (--local), a nivell d'usuari (--global) o a nivell de l'ordinador (--system).
+   git config --local user.name "Nom i cognom"
+   git config --local user.email correu@electronic
 
    # Editor de preferència. Exemple Visual Studio Code
    # Referencia: https://stackoverflow.com/questions/30024353/how-to-use-visual-studio-code-as-default-editor-for-git
@@ -46,10 +47,10 @@ Alternativament, podem crear la carpeta del repositori:
 
 ![Cicle de vida](https://git-scm.com/book/en/v2/images/lifecycle.png)
 
-### Revisant l'estat
+### Revisant l'estat actual dels canvis pendents de confirmar
 
 ```bash
- git status
+ git status -s
 ```
 
  Esquema de colors:
@@ -73,11 +74,11 @@ Per mostrar canvis entre staged i el repositori
  git diff --cached <arxiu>
 ```
   
-### Afegir arxius l'àrea de preparació (stage)
+### Afegir arxius a l'àrea de preparació (staging)
 
 ```bash
- git add <arxiu> # Afegir arxius
- git add .       # Afegir tots els arxius nous o modificats
+ git add <arxiu> # Afegir arxius concrets
+ git add .       # Afegir tots els arxius nous o modificats del working directory
 ```
 
  L'àrea de preparació* conté els canvis que s'afegiran a la nova versió quan executem un *commit*. És possible la següent situació:
@@ -104,7 +105,8 @@ Visualitzar canvis dels fitxers a l'àrea de preparació:
 ### Confirmar canvis (commit)
 
  ```bash
- git commit -m "missatge"
+ git commit <arxiu> -m "missatge" # Confirmar només un dels arxius que es troba a la zona staging
+ git commit -m "missatge"         # Confirmar tots els canvis afegits a la zona staging
  ```
 
 Un commit equival a una nova *versió* al repositori. Cada commit té un *identificador únic*, anomenat ~hash~. Els commits estan relacionats entre si mitjançant una *xarxa de tipus graf*.
@@ -121,8 +123,9 @@ De la mateixa manera, si prèviament hem guardat un arxiu al repositori mitjanç
 ### Historial de canvis
 
  ```bash
- git log
- git log --graph
+ git log            # Visualització per defecte
+ git log --graph    # Visualització similar a l'anterior
+ git log --oneline  # Visualització resumida dels commits fets
  ```
 
 Aquesta ordre mostra l'històric dels commits del repositori. Es pot navegar a la llista mitjançant els cursors i la barra espaiadora. Per sortir cal prémer la tecla *q*.
@@ -130,7 +133,7 @@ Aquesta ordre mostra l'històric dels commits del repositori. Es pot navegar a l
 ### Veure canvis realitzats en anteriors commits
 
 ```bash
- git show <commit>
+ git show <número_commit>
 ```
 
 Aquesta ordre ens permet mostrar els canvis que es van introduir en un determinat commit. En primer lloc es pot executar *git log* per cercar el hash del commit que ens interessi i tot seguit executar *git show* indicant després el hash del commit corresponent.
@@ -145,7 +148,7 @@ També podeu trobar diferències entre versions d'un mateix fitxer, per això ut
  git diff f2c4ec0 2ca00f8
  ```
 
-### Treure fitxer de l'àrea de preparació
+### Treure fitxer de l'àrea de preparació (staging)
 
 ```bash
  git reset <arxiu>
@@ -156,7 +159,7 @@ De vegades ens trobem que hem afegit canvis a l'àrea de preparació que no vole
 ### Eliminar les modificacions respecte a l'stage
 
 ```bash
-git restore <archivo>
+git restore <arxiu>
 ```
 
 També es pot fer d'aquesta forma (mètode anterior a l'aparició del *git restore*)
